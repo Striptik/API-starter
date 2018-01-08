@@ -1,0 +1,116 @@
+{
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype"
+  ],
+  "rules": {
+    "no-use-before-define": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "no-restricted-syntax": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "warn",
+      {
+        "aspects": [
+          "invalidHref"
+        ]
+      }
+    ],
+    // We consider that we want to use await in loop to keep js maneuverability
+    "no-await-in-loop": "off",
+    // Sometimes, we don't need to define a default case (when we're waiting for precise cases)
+    "default-case": "off",
+    "guard-for-in": "off",
+    // This rule doesn't work properly with our micro, we must deactivate it
+    "no-shadow": "off",
+    // Specify parens only when there are many parameters
+    "arrow-parens": [
+      "error",
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
+    "sort-vars": "error",
+    "max-len": ["error", 120],
+    // We should can declare var into case if we want
+    "no-case-declarations": "off",
+    "no-param-reassign": "off",
+    "no-trailing-spaces": "off",
+    // No multiple let/const declared one-time
+    "one-var": [
+      "error",
+      {
+        "var": "never",
+        "let": "never",
+        "const": "never"
+      }
+    ],
+    "flowtype/boolean-style": [
+      2,
+      "boolean"
+    ],
+    "flowtype/define-flow-type": 1,
+    "flowtype/generic-spacing": [
+      2,
+      "never"
+    ],
+    "flowtype/no-primitive-constructor-types": 2,
+    "flowtype/no-types-missing-file-annotation": 2,
+    //    "flowtype/no-weak-types": 2,
+    "flowtype/object-type-delimiter": [
+      2,
+      "comma"
+    ],
+    "flowtype/require-parameter-type": 2,
+    "flowtype/require-return-type": [
+      2,
+      "always",
+      {
+        "annotateUndefined": "always"
+      }
+    ],
+    "flowtype/require-variable-type": [
+      2,
+      {
+        "excludeVariableMatch": "^_"
+      }
+    ],
+    "flowtype/require-valid-file-annotation": 2,
+    "flowtype/semi": [
+      2,
+      "always"
+    ],
+    "flowtype/space-after-type-colon": [
+      2,
+      "always"
+    ],
+    "flowtype/space-before-generic-bracket": [
+      2,
+      "never"
+    ],
+    "flowtype/space-before-type-colon": [
+      2,
+      "never"
+    ],
+    "flowtype/type-id-match": [
+      2,
+      "^([A-Z][a-z0-9]+)+Type$"
+    ],
+    "flowtype/union-intersection-spacing": [
+      2,
+      "always"
+    ],
+    "flowtype/use-flow-type": 1,
+    "flowtype/valid-syntax": 1
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  }
+}
+
