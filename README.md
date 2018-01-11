@@ -7,19 +7,23 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [ ] Configure Express
 
-- [ ] Configure mongoose
+- [ ] Create Architecture (components, routes, models ...)
 
-- [ ] Add Flow
+- [ ] Add Morgan / Winston
+
+- [ ] Configure mongoose
 
 - [ ] Add Passport local & facebook
 
-- [ ] Add Morgan 
+- [ ] Add Helmet
+
+- [ ] Security : Add rate limit, reset, ...
+
+- [ ] Add dotenv
 
 - [ ] Create Module User
 
-- [ ] Create Schema
-
-- [ ] Create Routing
+- [ ] Add Flow
 
 - [ ] Create Test with Jest
 
