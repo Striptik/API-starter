@@ -27,3 +27,10 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [ ] Create Test with Jest
 
+
+
+To Think :
+
+Each new module (schema) created verify authentification need.
+
+ncu (update version packages)

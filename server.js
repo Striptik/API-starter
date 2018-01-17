@@ -20,8 +20,9 @@ const init = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use(helmet());
   // Helmet
+  app.use(helmet());
+  // others nidleware : https://github.com/helmetjs/helmet
 
 
   // morgan
