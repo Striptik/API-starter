@@ -5,9 +5,9 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Add config files
 
-- [ ] Configure Express
+- [x] Configure Express
 
-- [ ] Create Architecture (components, routes, models ...)
+- [x] Create Architecture (components, routes, models ...)
 
 - [ ] Add Morgan / Winston
 

@@ -2,17 +2,17 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import helmet from 'helmet';
 
 
-// Init DB => create db diretory
-// Init port
-// Add helmet
+import router from './components';
 
-
+const port = process.env.PORT || 3000;
 const app = express();
 
-
-const init: Function = (): void => {
+// App initialisation
+// Add Middlewares, Routing, Authentification, Logger, DB
+const init = () => {
   // CORS
   app.use(cors());
 
@@ -20,10 +20,26 @@ const init: Function = (): void => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use();
-
+  app.use(helmet());
   // Helmet
-  
+
+
+  // morgan
+
+  // Logger
+
+  // Mongoose
+
+  // Passport
+
+  // API routes
+
+  app.use('/', router);
+
+  app.listen(port, () => {
+    // Replace by logger
+    console.log(`App listenning on port ${port}`);
+  });
 };
 
 init();
