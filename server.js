@@ -3,12 +3,16 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import dotenv from 'dotenv';
+import logger from './src/Services/logger/logger';
 
 
-import router from './components';
+import router from './src';
+
 
 const port = process.env.PORT || 3000;
 const app = express();
+dotenv.config();
 
 // App initialisation
 // Add Middlewares, Routing, Authentification, Logger, DB
@@ -24,10 +28,9 @@ const init = () => {
   app.use(helmet());
   // others nidleware : https://github.com/helmetjs/helmet
 
-
-  // morgan
-
-  // Logger
+  // Logger // morgan -> winston 
+  app.use(morgan('dev', { stream: logger.stream }));
+  
 
   // Mongoose
 
@@ -39,6 +42,7 @@ const init = () => {
 
   app.listen(port, () => {
     // Replace by logger
+    logger.info('coucou !');
     console.log(`App listenning on port ${port}`);
   });
 };

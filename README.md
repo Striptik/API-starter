@@ -1,6 +1,14 @@
 # API-starter
 Boilerplate for node API with good architecture and principals require package (Express, mongoose, passport, eslint-airbnb) made with ES6 and Love.
 
+## How does it work ?
+=> Install, Run, npm scripts ...
+
+# TODO
+
+
+## BASE CONFIGURATION
+
 - [x] Add first packages (eslint, babelrc, gitignore)
 
 - [x] Add config files
@@ -9,19 +17,27 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Create Architecture (components, routes, models ...)
 
-- [ ] Add Morgan / Winston
+- [x] Add dotenv
 
 - [ ] Configure mongoose
 
+- [ ] Create Module User
+
+# Middleware
+- [x] Add Morgan / Winston 
+
 - [ ] Add Passport local & facebook
 
-- [ ] Add Helmet
+- [x] Add Helmet
 
-- [ ] Security : Add rate limit, reset, ...
+
+#
+
+- [ ] Security : rate limit, reset, ...
 
 - [ ] Add dotenv
 
-- [ ] Create Module User
+
 
 - [ ] Add Flow
 
