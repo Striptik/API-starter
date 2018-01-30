@@ -1,47 +1,55 @@
 
+const winston = require('winston');
+require('winston-loggly-bulk');
 
-const { Logger, transports, format } = require('winston');
-require('winston-loggly');
+// #Remove previous logger console
+winston.remove(winston.transports.Console);
 
-const logger = Logger({
-  transports: [
-    // Add error.log files for saving only errors
-    transports.File({
-      filename: 'error.log',
-      level: 'error',
-      handleExceptions: true,
-      json: true,
-      maxsize: 5242880,
-      maxFiles: 5,
-      colorize: true,
-    }),
-    // Send to loggly
-    transports.Loggly({
-      inputToken: process.env.LOGGLY_API_KEY,
-      subdomain: 'insightLab',
-      tags: ['Insight Lab', (process.env.NODE_ENV || 'dev'), 'API', (process.env.USER || 'Team')],
-      json: true,
-    }),
-  ],
-  exitOnError: false,
+// #Add new Console logger  
+winston.add(winston.transports.Console, {
+  level: 'debug',
+  handleExceptions: true,
+  json: false,
+  colorize: true,
 });
 
-// If we're not in production, show log in the console. 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(transports.Console({
-    format: format.simple(),
-    level: 'debug',
-    handleExceptions: true,
-    json: false,
-    colorize: true,
-  }));
-}
+// #Add loggly support
+winston.add(winston.transports.Loggly, {
+  handleExceptions: true,
+  level: process.env.LOGGLY_LEVEL,
+  auth: { 
+    username: process.env.LOGGLY_USERNAME,
+    password: process.env.LOGGLY_PASSWORD,
+  },
+  inputToken: process.env.LOGGLY_API_KEY,
+  subdomain: process.env.LOGGLY_SUBDOMAIN,
+  tags: [
+    process.env.LOGGLY_TAGS_ENV, 
+    process.env.LOGGLY_TAGS_PROJECT, 
+    process.env.LOGGLY_TAGS_USER,
+  ],
+  json: true,
+});
+
+// #Add File logger for Errors
+winston.add(winston.transports.File, {
+  filename: './error.log',
+  level: 'error',
+  handleExceptions: true,
+  json: true,
+  maxsize: 5242880,
+  maxFiles: 5,
+  colorize: true,
+});
+
+
+winston.exitOnError = false;
 
 // Logger method for Morgan
-logger.stream = {
-  write: (message, encoding) => {
-    logger.info(` MORGAN LOG : ${message.trim()}`);
+winston.stream = {
+  write: (message) => {
+    winston.info(` MORGAN LOG : ${message.trim()}`);
   },
 };
 
-export default logger;
+module.exports = winston;

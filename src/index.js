@@ -1,7 +1,7 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
 // Every routes
-import userRouter from './user/routes';
+const userRouter = require('./user/routes');
 
 
 // Create general Router with mergeParams to access the params of the parent router
@@ -25,4 +25,4 @@ routerV1.get('/', (req, res) => {
 routerV1.use('/user/', userRouter);
 
 
-export default router;
+module.exports = { router };

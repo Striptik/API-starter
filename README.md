@@ -21,7 +21,7 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [ ] Configure mongoose
 
-- [ ] Create Module User
+- [x] Create Module User
 
 # Middleware
 - [x] Add Morgan / Winston 
@@ -30,8 +30,10 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Add Helmet
 
+- [x] Add cookie parser
 
-#
+
+# Security
 
 - [ ] Security : rate limit, reset, ...
 

@@ -1,18 +1,21 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
-import logger from './src/Services/logger/logger';
+require('dotenv').config();
 
+// Extern depencies
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const morgan = require('morgan');
+const helmet = require('helmet');
+const logger = require('./src/Services/logger/logger');
+const cookieParser = require('cookie-parser');
 
-import router from './src';
+// Routes
+const { router } = require('./src');
 
-
+// Express 
 const port = process.env.PORT || 3000;
 const app = express();
-dotenv.config();
+
 
 // App initialisation
 // Add Middlewares, Routing, Authentification, Logger, DB
@@ -30,7 +33,9 @@ const init = () => {
 
   // Logger // morgan -> winston 
   app.use(morgan('dev', { stream: logger.stream }));
-  
+
+  // Cookie parser
+  app.use(cookieParser());
 
   // Mongoose
 
@@ -42,10 +47,16 @@ const init = () => {
 
   app.listen(port, () => {
     // Replace by logger
-    logger.info('coucou !');
-    console.log(`App listenning on port ${port}`);
+    logger.info(`App is running on port ${port}`, { tags: ['startup', 'init'] });
   });
 };
 
 init();
 
+// #Handle Uncaught Exception
+process.on('uncaughtException', (err) => {
+  // handle the error safely
+  logger.error(err, { tags: ['uncaughtException', 'fatal-error'] });
+});
+
+dcsc

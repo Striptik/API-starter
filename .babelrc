@@ -10,5 +10,8 @@
     ],
     "flow",
     "es2015"
+  ],
+  "plugins": [
+    "inline-dotenv"
   ]
 }

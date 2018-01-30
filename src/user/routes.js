@@ -1,5 +1,5 @@
 // Add routes user
-import { Router } from 'express';
+const { Router } = require('express');
 
 const userRouter = Router({ mergeParams: true });
 
@@ -11,4 +11,4 @@ userRouter.get('/', (req, res, next) => {
 });
 
 // module.exports = { userRouter };
-export default userRouter;
+module.exports = userRouter;
