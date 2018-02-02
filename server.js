@@ -1,6 +1,7 @@
+// #Add the .env variable to the environnement variables
 require('dotenv').config();
 
-// Extern depencies
+// #Extern dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,35 +10,39 @@ const helmet = require('helmet');
 const logger = require('./src/Services/logger/logger');
 const cookieParser = require('cookie-parser');
 
-// Routes
+// #Intern Tools
+const db = require('./src/Services/db/db');
+
+// #Routes
 const { router } = require('./src');
 
-// Express 
+// #Express 
 const port = process.env.PORT || 3000;
 const app = express();
 
 
-// App initialisation
+// #App initialisation
 // Add Middlewares, Routing, Authentification, Logger, DB
 const init = () => {
-  // CORS
+  // #Mongoose
+  db.initMongooseClient();
+
+  // #CORS
   app.use(cors());
 
-  // Body Parser
+  // #Body Parser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  // Helmet
+  // #Helmet
   app.use(helmet());
-  // others nidleware : https://github.com/helmetjs/helmet
+  // others middleware : https://github.com/helmetjs/helmet
 
-  // Logger // morgan -> winston 
+  // #Logger // morgan -> winston 
   app.use(morgan('dev', { stream: logger.stream }));
 
-  // Cookie parser
+  // #Cookie parser
   app.use(cookieParser());
-
-  // Mongoose
 
   // Passport
 
@@ -58,5 +63,3 @@ process.on('uncaughtException', (err) => {
   // handle the error safely
   logger.error(err, { tags: ['uncaughtException', 'fatal-error'] });
 });
-
-dcsc

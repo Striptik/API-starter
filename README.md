@@ -20,22 +20,32 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Add dotenv
 
+- [x] Create Module User
+
+
+## DB
+
 - [ ] Configure mongoose
 
-- [x] Create Module User
+- [ ] Add Forest
+
 
 ## Middleware
 
-- [x] Add Morgan / Winston 
+- [x] Add Morgan
 
 - [ ] Add Passport local & facebook
-
-- [x] Add Helmet
 
 - [x] Add cookie parser
 
 
-## Security / Test
+## Security / Test / Check
+
+- [x] Add CORS
+
+- [x] Add Winston with Loggly
+
+- [x] Add Helmet
 
 - [ ] Security : rate limit, reset, jwt ...
 
@@ -47,7 +57,6 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [ ] Ajouter webpack ou parcel
 
-- [ ] Ajouter Forest
 
 - [ ] Explain all modules / make a clean readme
 
