@@ -24,7 +24,8 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Create Module User
 
-# Middleware
+## Middleware
+
 - [x] Add Morgan / Winston 
 
 - [ ] Add Passport local & facebook
@@ -34,22 +35,23 @@ Boilerplate for node API with good architecture and principals require package (
 - [x] Add cookie parser
 
 
-# Security
+## Security / Test
 
-- [ ] Security : rate limit, reset, ...
-
-- [ ] Add dotenv
-
-
+- [ ] Security : rate limit, reset, jwt ...
 
 - [ ] Add Flow
 
 - [ ] Create Test with Jest
 
+## Others
 
+- [ ] Ajouter webpack ou parcel
 
-To Think :
+- [ ] Ajouter Forest
+
+- [ ] Explain all modules / make a clean readme
+
+Remind :
 
 Each new module (schema) created verify authentification need.
-
 ncu (update version packages)
