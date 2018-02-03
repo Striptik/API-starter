@@ -7,11 +7,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const logger = require('./src/Services/logger/logger');
 const cookieParser = require('cookie-parser');
 
 // #Intern Tools
-const db = require('./src/Services/db/db');
+const logger = require('./src/Services/logger');
+const db = require('./src/Services/db');
 
 // #Routes
 const { router } = require('./src');

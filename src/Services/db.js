@@ -1,5 +1,7 @@
+// #Intern tools
+const logger = require('./logger');
+
 // #Db Initialisation 
-const logger = require('../logger/logger');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise; 

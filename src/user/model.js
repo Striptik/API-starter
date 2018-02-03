@@ -34,20 +34,20 @@ const UserSchema = new Schema({
 
 // #Define Methods (not with big Arrow =>)
 UserSchema.methods.sayHello = function sayHello() {
-  console.log(this.firstname);
-};
-
-UserSchema.methods.newUser = function newUser(email, password, firstname, lastname) {
-
+  console.log(`Hello, my name is ${this.firstname}!\n`);
 };
 
 // #Define Statics Methods (not with big Arrow =>)
 UserSchema.statics.getUserWithEmail = function getUserWithEmail(email, cb) {
-  return this.find({ email }, cb);
+  return this.findOne({ email }, cb);
 };
 
 UserSchema.statics.getUsersWithFirstname = function getUsersWithFirstname(firstname, cb) {
   return this.find({ firstname: new RegExp(firstname, 'i') }, cb);
+};
+
+UserSchema.statics.getUsers = function getUsers(cb) {
+  return this.find({}, cb);
 };
 
 // #Virtuals (no persisting in the schema)

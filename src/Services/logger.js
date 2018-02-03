@@ -48,7 +48,7 @@ winston.exitOnError = false;
 // Logger method for Morgan
 winston.stream = {
   write: (message) => {
-    winston.info(` MORGAN LOG : ${message.trim()}`);
+    winston.info(`>HTTP : ${message.trim()}`);
   },
 };
 
