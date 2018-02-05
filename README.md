@@ -25,9 +25,9 @@ Boilerplate for node API with good architecture and principals require package (
 
 ## DB
 
-- [ ] Configure mongoose
+- [x] Configure mongoose
 
-- [ ] Add Forest
+- [x] Add Forest
 
 
 ## Middleware

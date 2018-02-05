@@ -8,6 +8,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const forest = require('forest-express-mongoose');
+const mongoose = require('mongoose');
 
 // #Intern Tools
 const logger = require('./src/Services/logger');
@@ -26,6 +28,14 @@ const app = express();
 const init = () => {
   // #Mongoose
   db.initMongooseClient();
+
+  // #ForestAdmin
+  app.use(forest.init({
+    modelsDir: './src',
+    envSecret: process.env.FOREST_ENV_SECRET,
+    authSecret: process.env.FOREST_AUTH_SECRET,
+    mongoose, // The mongoose database connection.
+  }));
 
   // #CORS
   app.use(cors());
