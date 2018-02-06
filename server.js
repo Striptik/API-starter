@@ -10,6 +10,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const forest = require('forest-express-mongoose');
 const mongoose = require('mongoose');
+const client = require('redis').createClient();
 
 // #Intern Tools
 const logger = require('./src/Services/logger');
@@ -22,9 +23,25 @@ const { router } = require('./src');
 const port = process.env.PORT || 3000;
 const app = express();
 
+// #Add limite rate
+const limiter = require('express-limiter')(app, client);
+
+limiter({
+  path: '*',
+  method: 'all',
+  lookup: ['connection.remoteAddress'], // controll, add req.user.id
+  total: 20, // 150 request per 
+  expire: 1000 * 60, // 1 hour
+  onRateLimited: (req, res, next) => {
+    logger.info('Rate limited', {
+      tags: ['limiteRate', 'limiter', 'DDOS'],
+    });
+    next({ message: 'Rate limit exceeded', status: 429 });
+  },
+});
+
 
 // #App initialisation
-// Add Middlewares, Routing, Authentification, Logger, DB
 const init = () => {
   // #Mongoose
   db.initMongooseClient();
@@ -48,13 +65,14 @@ const init = () => {
   app.use(helmet());
   // others middleware : https://github.com/helmetjs/helmet
 
-  // #Logger // morgan -> winston 
+  // #Logger morgan -> winston 
   app.use(morgan('dev', { stream: logger.stream }));
 
   // #Cookie parser
   app.use(cookieParser());
 
   // Passport
+
 
   // API routes
 
