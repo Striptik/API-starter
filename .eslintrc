@@ -11,7 +11,7 @@
     "no-use-before-define": "off",
     "jsx-a11y/href-no-hash": "off",
     "no-restricted-syntax": "off",
-    "eslint prefer-promise-reject-errors": "off",
+    "prefer-promise-reject-errors": "off",
     "jsx-a11y/anchor-is-valid": [
       "warn",
       {

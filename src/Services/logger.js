@@ -11,25 +11,26 @@ winston.add(winston.transports.Console, {
   handleExceptions: true,
   json: false,
   colorize: true,
+  json: true,
 });
 
 // #Add loggly support
-winston.add(winston.transports.Loggly, {
-  handleExceptions: true,
-  level: process.env.LOGGLY_LEVEL,
-  auth: { 
-    username: process.env.LOGGLY_USERNAME,
-    password: process.env.LOGGLY_PASSWORD,
-  },
-  inputToken: process.env.LOGGLY_API_KEY,
-  subdomain: process.env.LOGGLY_SUBDOMAIN,
-  tags: [
-    process.env.LOGGLY_TAGS_ENV, 
-    process.env.LOGGLY_TAGS_PROJECT, 
-    process.env.LOGGLY_TAGS_USER,
-  ],
-  json: true,
-});
+// winston.add(winston.transports.Loggly, {
+//   handleExceptions: true,
+//   level: process.env.LOGGLY_LEVEL,
+//   auth: { 
+//     username: process.env.LOGGLY_USERNAME,
+//     password: process.env.LOGGLY_PASSWORD,
+//   },
+//   inputToken: process.env.LOGGLY_API_KEY,
+//   subdomain: process.env.LOGGLY_SUBDOMAIN,
+//   tags: [
+//     process.env.LOGGLY_TAGS_ENV, 
+//     process.env.LOGGLY_TAGS_PROJECT, 
+//     process.env.LOGGLY_TAGS_USER,
+//   ],
+//   json: true,
+// });
 
 // #Add File logger for Errors
 winston.add(winston.transports.File, {

@@ -11,7 +11,7 @@ const User = require('./model');
  * @return Promise ({err, message, data})
  */
 const newUser = (({ email, password, firstname, lastname }) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     // #Maybe unash some variables;
 
     // #Check definition of every variables
@@ -40,13 +40,29 @@ const newUser = (({ email, password, firstname, lastname }) =>
 
     // Use static assignation to control all the properties added
     const newUser = new User();
+
     newUser.email = email;
-    newUser.password = password;
     newUser.firstname = firstname;
     newUser.lastname = lastname;
+
+    const ret = await newUser.setPassword(password);
+    if (ret.err !== null || ret.data === null) {
+      logger.error('Unable to create a hash for the new user', {
+        ret,
+      });
+      return reject({
+        message: 'Error when trying to create a password',
+        err: ret.err,
+        data: ret.data,
+      });
+    }
+    // #Add
+    newUser.auth.hash = ret.data;
+
+    // #Saving data
     newUser.save((err, user) => {
       if (err) {
-        logger.error({
+        logger.error('Error during saving the new User', {
           newUser,
           err,
           user,
@@ -55,12 +71,12 @@ const newUser = (({ email, password, firstname, lastname }) =>
         return reject({
           message: 'Error during mongoose save',
           err,
-          data: null
+          data: null,
         });
       }
 
       logger.info('User created', {
-        user
+        user,
       });
       return resolve({
         error: null,
@@ -72,6 +88,75 @@ const newUser = (({ email, password, firstname, lastname }) =>
 );
 
 /**
+ * User Login
+ * @param {*} email 
+ * @param {*} password 
+ */
+const login = (({ email, password }) =>
+  new Promise((resolve, reject) => {
+    User.getUserWithEmail(email, (err, user) => {
+      // #Error
+      if (err) {
+        logger.error('Error when trying to find the user for login', {
+          email,
+          err,
+          user,
+          tags: ['user', 'loginError', 'login'],
+        });
+        return reject({
+          err: new Error(err),
+          data: user,
+          message: `Error when trying to find the user: ${email}`,
+        });
+      }
+      user.checkPassword(password)
+        .then(({ data, err }) => {
+          logger.info('Login with success !', {
+            data,
+            err,
+            email,
+            tags: ['login', 'loginSuccess', 'user']
+          });
+          return resolve({
+            data: { user, token: 'TOKEN!!!!' },
+            message: 'User Login',
+            err: null,
+          });
+        })
+        .catch(({ err, data }) => {
+          // #Bad xloginError
+          console.log(err)
+          if (err === false) {
+            logger.error(`Unable to login the user ${user} with this password`, {
+              data,
+              err,
+              email,
+              tags: ['login', 'badPassword', 'user']
+            });
+            return reject({
+              err,
+              message: 'Wrong password.',
+              data,
+            });
+          }
+          // #Bcrypt error
+          logger.error(`Error with Bcrypt checkPassword process ${user}`, {
+            data,
+            err,
+            email,
+            tags: ['login', 'bcryptError', 'user']
+          });
+          return reject({
+            err,
+            message: 'User cannot login !',
+            data,
+          });
+
+        });
+    });
+  }));
+
+/**
  *  get User by 'key' field
  * @param {*} key 
  * @param {*} value 
@@ -79,8 +164,7 @@ const newUser = (({ email, password, firstname, lastname }) =>
  */
 const getUserBy = ((key, value) =>
   new Promise((resolve, reject) => {
-    // #static methods in model
-
+    // #Use static methods in model
     if (key === 'email') {
       User.getUserWithEmail(value, (err, user) => {
         // #Error
@@ -105,8 +189,7 @@ const getUserBy = ((key, value) =>
         });
       });
     }
-
-    // #Other keys
+    // #Other keys than email
     // #Create qwery to find
     const findObject = {};
     findObject[key] = value;
@@ -139,4 +222,5 @@ const getUserBy = ((key, value) =>
 module.exports = {
   newUser,
   getUserBy,
+  login
 };

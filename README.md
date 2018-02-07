@@ -30,16 +30,13 @@ Boilerplate for node API with good architecture and principals require package (
 - [x] Add Forest
 
 
-## Middleware
+## Security / Test / Check / Midlleware
 
 - [x] Add Morgan
 
 - [ ] Add Passport local & facebook
 
 - [x] Add cookie parser
-
-
-## Security / Test / Check
 
 - [x] Add CORS
 
