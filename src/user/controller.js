@@ -115,7 +115,7 @@ const login = (({ email, password }) =>
             data,
             err,
             email,
-            tags: ['login', 'loginSuccess', 'user']
+            tags: ['login', 'loginSuccess', 'user'],
           });
           return resolve({
             data: { user, token: 'TOKEN!!!!' },
@@ -124,14 +124,13 @@ const login = (({ email, password }) =>
           });
         })
         .catch(({ err, data }) => {
-          // #Bad xloginError
-          console.log(err)
+          // #Bad Password
           if (err === false) {
             logger.error(`Unable to login the user ${user} with this password`, {
               data,
               err,
               email,
-              tags: ['login', 'badPassword', 'user']
+              tags: ['login', 'badPassword', 'user'],
             });
             return reject({
               err,
@@ -144,17 +143,17 @@ const login = (({ email, password }) =>
             data,
             err,
             email,
-            tags: ['login', 'bcryptError', 'user']
+            tags: ['login', 'bcryptError', 'user'],
           });
           return reject({
             err,
             message: 'User cannot login !',
             data,
           });
-
         });
     });
-  }));
+  })
+);
 
 /**
  *  get User by 'key' field

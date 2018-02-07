@@ -56,6 +56,8 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [ ] Create Test with Jest
 
+- [ ] Package the app (pkg)
+
 ## Others
 
 - [ ] Ajouter webpack ou parcel
