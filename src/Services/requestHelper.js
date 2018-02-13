@@ -8,7 +8,6 @@ const checkFields = (required, object) => {
   const miss = [];
   const extra = [];
 
-  console.log(object);
   // # Check missing fields
   required.forEach((prop) => {
     if (!(prop in object)) miss.push(prop);

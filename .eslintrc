@@ -35,6 +35,7 @@
         "requireForBlockBody": true
       }
     ],
+    "no-underscore-dangle": "off",
     "sort-vars": "error",
     "max-len": ["error", 120],
     // We should can declare var into case if we want

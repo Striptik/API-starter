@@ -3,6 +3,7 @@
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const logger = require('../Services/logger');
+const jwt = require('jsonwebtoken');
 
 const SALT_FACTOR = 10;
 const { Schema } = mongoose;
@@ -74,12 +75,10 @@ UserSchema.methods.setPassword = function setPass(password) {
 
 UserSchema.methods.checkPassword = function checkPass(password) {
   return new Promise((resolve, reject) => {
-    console.log(this.auth.hash, '2');
     bcrypt.compare(password, this.auth.hash, (err, data) => {
       if (err) {
         return reject({ data: null, err });
       }
-      console.log('data', data);
       if (data === false) {
         return reject({ data: null, err: false });
       }
@@ -88,6 +87,20 @@ UserSchema.methods.checkPassword = function checkPass(password) {
   });
 };
 
+UserSchema.methods.generateJwt = function generateJwt() {
+  const expiry = new Date();
+  // #21 days to expiration date for jwt
+  expiry.setDate(expiry.getDate() + 21);
+
+  return jwt.sign({
+    _id: this._id,
+    email: this.email,
+    firstname: this.firstname,
+    lastname: this.lastname,
+    expiresIn: '5 minutes', // FOR JWT
+    exp: parseInt(expiry.getTime() / 1000, 10),
+  }, process.env.JWT_SECRET);
+};
 
 // #Define Statics Methods (not with big Arrow =>)
 UserSchema.statics.getUserWithEmail = function getUserWithEmail(email, cb) {

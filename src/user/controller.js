@@ -117,8 +117,9 @@ const login = (({ email, password }) =>
             email,
             tags: ['login', 'loginSuccess', 'user'],
           });
+          const token = user.generateJwt();
           return resolve({
-            data: { user, token: 'TOKEN!!!!' },
+            data: { user, token },
             message: 'User Login',
             err: null,
           });

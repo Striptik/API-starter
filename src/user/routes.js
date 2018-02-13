@@ -6,6 +6,11 @@ const User = require('./model');
 const { getUserBy, newUser, login } = require('./controller');
 const { checkFields } = require('../Services/requestHelper');
 
+const { authJwt } = require('../Services/authentication/jwt');
+const passport = require('passport');
+
+authJwt(passport);
+
 
 // Declare User Router
 const userRouter = Router({ mergeParams: true });
@@ -38,7 +43,7 @@ userRouter.get('/all', (req, res) => {
 /**
  * get Users By 'Key' route
  */
-userRouter.get('/:key/:value', (req, res) => {
+userRouter.get('/:key/:value', passport.authenticate(['jwt'], { session: false }), (req, res) => {
   getUserBy(req.params.key, req.params.value)
     .then(data => res.status(200).json(data))
     .catch(({ err, data, message }) => {
