@@ -14,7 +14,7 @@ winston.add(winston.transports.Console, {
 });
 
 // #Add loggly support
-if (process.env.ACTIVATE_LOGGLY === 'Y') {
+if (process.env.LOGGLY_ACTIVATE === 'Y') {
   winston.add(winston.transports.Loggly, {
     handleExceptions: true,
     level: process.env.LOGGLY_LEVEL,

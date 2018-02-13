@@ -33,10 +33,10 @@ const UserSchema = new Schema({
     default: null,
   },
 }, {
-    collection: 'users', // #Define the name of the collection
-    strict: true,
-    timestamps: true,
-  });
+  collection: 'users', // #Define the name of the collection
+  strict: true,
+  timestamps: true,
+});
 
 
 // #Define Methods (not with big Arrow =>)
@@ -102,6 +102,7 @@ UserSchema.statics.getUsers = function getUsers(cb) {
   return this.find({}, cb);
 };
 
+
 // #Virtuals (no persisting in the schema)
 UserSchema.virtual('fullname')
   .get(function getFullName() { return `${this.firstname}  ${this.lastname}`; })
@@ -109,16 +110,6 @@ UserSchema.virtual('fullname')
     this.firstname = fullName.substr(0, fullName.indexOf(' '));
     this.lastname = fullName.substr(fullName.indexOf(' ') + 1);
   });
-
-/* 
-  Can Use it to get or set firstname and lastname
-
-  set:
-  KevinL.fullname = 'Kevin Loiseleur' => KevinL.firstname = Kevin, KevinL.lastname = Loiseleur
-  get:
-  console.log(KevinL.fullname) // Kevin Loiseleur
-*/
-
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

@@ -115,11 +115,18 @@ For Production environnement it will be `yarn start | npm run start`
 
 
 
+# Configuration
+
+dotenv
+
+logger
+
+Norme route api 
+logger
 description retour api (message, error, data)
 
- Redis
- RateLimit
+rateLIMIT
+redis
 
-
+deploiement
  Heroku / now
-
