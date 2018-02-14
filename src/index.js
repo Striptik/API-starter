@@ -1,13 +1,11 @@
 const { Router } = require('express');
 const passport = require('passport');
 
-// #Routes
-const userRouter = require('./user/routes');
-
 // #Add passport strategie
 const { setAuthentication } = require('./Services/authentication');
 
 setAuthentication(passport);
+
 
 // #Merge params to give access to them
 const router = Router({ mergeParams: true });
@@ -23,18 +21,13 @@ routerV1.get('/', (req, res) => {
   }).status(200);
 });
 
+// #1- Routes
+const User = require('./user/routes');
 
-// #Check if the user is authenticated
-routerV1.get('/authenticated', passport.authenticate(['jwt'], { session: false }), (req, res) => {
-  res.send({
-    message: 'User authenticated',
-    err: null,
-    data: req.user,
-  }).status(200);
-});
+// #2- Instanciate Routes
+const userRouter = new User({ passport });
 
-
-// Add Public / Auth routes here ?
-routerV1.use('/user/', userRouter);
+// #3 - Add Routes
+routerV1.use('/user/', userRouter.getRouter());
 
 module.exports = { router };

@@ -34,7 +34,9 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Add Morgan
 
-- [ ] Add Passport local & facebook
+- [x] Add Passport JWT
+
+- [ ] Add Passport Facebook
 
 - [x] Add cookie parser
 
@@ -50,7 +52,7 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [x] Reset System
 
-- [ ] JWT 
+- [x] JWT 
 
 - [ ] Add Flow
 
@@ -62,7 +64,7 @@ Boilerplate for node API with good architecture and principals require package (
 
 - [ ] Ajouter webpack ou parcel
 
-- [ ] Make a clear
+- [ ] Make a clear documentation\
 
 - [ ] Explain all modules / make a clean readme
 

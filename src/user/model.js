@@ -90,14 +90,14 @@ UserSchema.methods.checkPassword = function checkPass(password) {
 UserSchema.methods.generateJwt = function generateJwt() {
   const expiry = new Date();
   // #21 days to expiration date for jwt
-  expiry.setDate(expiry.getDate() + 21);
+  expiry.setDate(expiry.getDate() + 1);
 
   return jwt.sign({
     _id: this._id,
     email: this.email,
     firstname: this.firstname,
     lastname: this.lastname,
-    expiresIn: '5 minutes', // FOR JWT
+    expiresIn: '10s', // FOR JWT
     exp: parseInt(expiry.getTime() / 1000, 10),
   }, process.env.JWT_SECRET);
 };
