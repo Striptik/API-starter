@@ -9,7 +9,7 @@ const authFB = (passport) => {
     callbackURL: `${process.env.API_URL}auth/facebook/redirect`,
   }, (accessToken, refreshToken, profile, cb) => {
     console.log(accessToken, refreshToken, profile);
-    return (cb, profile)
+    return (cb, profile);
   }));
 
 

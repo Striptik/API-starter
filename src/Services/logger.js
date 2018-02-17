@@ -5,16 +5,18 @@ require('winston-loggly-bulk');
 // #Remove previous logger console
 winston.remove(winston.transports.Console);
 
-// #Add new Console logger  
-winston.add(winston.transports.Console, {
-  level: 'debug',
-  handleExceptions: true,
-  colorize: true,
-  json: process.env.NODE_ENV !== 'prod',
-});
+// #Add new Console logger
+if (process.env.LOGGLY_ADD_CONSOLE === 'YES') {
+  winston.add(winston.transports.Console, {
+    level: 'debug',
+    handleExceptions: true,
+    colorize: true,
+    json: (process.env.LOGGLY_CONSOLE_JSON === 'YES'),
+  });
+}
 
 // #Add loggly support
-if (process.env.LOGGLY_ACTIVATE === 'Y') {
+if (process.env.LOGGLY_SEND_LOG_ACTIVATE === 'YES') {
   winston.add(winston.transports.Loggly, {
     handleExceptions: true,
     level: process.env.LOGGLY_LEVEL,
@@ -34,16 +36,17 @@ if (process.env.LOGGLY_ACTIVATE === 'Y') {
 }
 
 // #Add File logger for Errors
-winston.add(winston.transports.File, {
-  filename: './error.log',
-  level: 'error',
-  handleExceptions: true,
-  json: true,
-  maxsize: 5242880,
-  maxFiles: 5,
-  colorize: true,
-});
-
+if (process.env.LOGGLY_ADD_FILE_ERROR === 'YES') {
+  winston.add(winston.transports.File, {
+    filename: './error.log',
+    level: 'error',
+    handleExceptions: true,
+    json: true,
+    maxsize: 5242880,
+    maxFiles: 5,
+    colorize: true,
+  });
+}
 
 winston.exitOnError = false;
 
