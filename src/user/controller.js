@@ -1,6 +1,10 @@
 const logger = require('../Services/logger');
 const hash = require('../Services/hash');
 const User = require('./model');
+const { sendResetMail } = require('../Services/mailer');
+
+const rs = require('randomstring');
+
 
 /**
  * Create New Entity User in the database
@@ -219,8 +223,70 @@ const getUserBy = ((key, value) =>
 );
 
 
+const resetPassword = (email =>
+  new Promise((resolve, reject) => {
+    // #Create token
+    const reset = rs.generate({
+      length: 12,
+      charset: 'alphabetic',
+    });
+    // #Getting the user with the email
+    User.getUserWithEmail(email, (err, user) => {
+      if (err || !user) {
+        logger.error(`No user find with the email ${email}, or error during find`, {
+          err,
+          user,
+          email,
+          tags: ['user', 'getUserWithEmail', 'resetPassword', 'mongoose'],
+        });
+        return reject({
+          err,
+          data: user,
+          message: `No User find with this email ${email}`,
+        });
+      }
+      // #Store token and expiration in the user 
+      user.auth.reset = reset;
+      user.auth.resetExp = Date.now() + 1200000; // 10 minutes
+      user.save((err) => {
+        if (err) {
+          logger.error('Error during saving the resetPassword', {
+            err,
+            user,
+            tags: ['user', 'resetPassword', 'reset', 'mongoose'],
+          });
+          return reject({
+            message: 'Error during saving the reset token',
+            err,
+            data: null,
+          });
+        }
+        // #Create the url to reset password
+        const url = `${process.env.FRONT_DOMAIN}resetPassword?code=${reset}`;
+        // #Send it via mail
+        sendResetMail(email, url)
+          .then((message) => {
+            logger.info(`Reset Token for user ${email}`, {
+              user,
+              url,
+            });
+            return resolve(message);
+          })
+          .catch((err) => {
+            logger.error(`Reset Token for user ${email} Failed`, {
+              err,
+              url,
+            });
+            return reject(err);
+          });
+      });
+    });
+  })
+);
+
 module.exports = {
   newUser,
   getUserBy,
-  login
+  login,
+  resetPassword,
 };

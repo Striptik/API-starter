@@ -24,6 +24,9 @@ const UserSchema = new Schema({
     reset: {
       type: String,
     },
+    resetExp: {
+      type: Date,
+    },
   },
   firstname: {
     type: String,
