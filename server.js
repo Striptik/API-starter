@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const forest = require('forest-express-mongoose');
 const mongoose = require('mongoose');
 const client = require('redis').createClient();
+const path = require('path');
 
 // #Intern Tools
 const logger = require('./src/Services/logger');
@@ -54,6 +55,10 @@ const init = () => {
     mongoose, // The mongoose database connection.
   }));
 
+  // #Use path to add views
+  app.set('view engine', 'pug');
+  app.set('views', path.join(__dirname, 'views'));
+  
   // #CORS
   app.use(cors());
 
