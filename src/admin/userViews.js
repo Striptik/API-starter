@@ -9,8 +9,6 @@ class UserViews {
 
   routes() {
     this.notStatics = true; // To remove
-
-
   }
 
   getRouter() {

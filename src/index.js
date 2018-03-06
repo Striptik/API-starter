@@ -32,7 +32,7 @@ routerV1.use('/user/', userRouter.getRouter());
 /** VIEWS */
 const viewRouter = Router();
 // #Add view to route admin
-router.use('/admin/', viewRouter);
+router.use('/public/', viewRouter);
 
 // #1 - Routes
 const UserViews = require('./admin/userViews');
