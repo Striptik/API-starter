@@ -231,7 +231,7 @@ const resetPassword = (email =>
       charset: 'alphabetic',
     });
     // #Getting the user with the email
-    User.getUserWithEmail(email, (err, user) => {
+    User.getUserWithEmail(email, async (err, user) => {
       if (err || !user) {
         logger.error(`No user find with the email ${email}, or error during find`, {
           err,
@@ -245,8 +245,23 @@ const resetPassword = (email =>
           message: `No User find with this email ${email}`,
         });
       }
+
+      // #Encrypt reset token
+      const ret = await user.hashResetToken(reset);
+      if (ret.err !== null || ret.data === null) {
+        logger.error('Unable to create a reset token reset password ', {
+          ret,
+          user,
+        });
+        return reject({
+          message: 'Error when trying to create a reset token',
+          err: ret.err,
+          data: ret.data,
+        });
+      }
+
       // #Store token and expiration in the user 
-      user.auth.reset = reset;
+      user.auth.reset = ret.data;
       user.auth.resetExp = Date.now() + 1200000; // 10 minutes
       user.save((err) => {
         if (err) {

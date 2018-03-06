@@ -6,6 +6,7 @@ const logger = require('../Services/logger');
 const jwt = require('jsonwebtoken');
 
 const SALT_FACTOR = 10;
+const RESET_SALT_FACTOR = 6;
 const { Schema } = mongoose;
 
 // #Define fields
@@ -103,6 +104,48 @@ UserSchema.methods.generateJwt = function generateJwt() {
     expiresIn: '10s', // FOR JWT
     exp: parseInt(expiry.getTime() / 1000, 10),
   }, process.env.JWT_SECRET);
+};
+
+UserSchema.methods.hashResetToken = function hashRT(token) {
+  return new Promise((resolve, reject) => {
+    bcrypt.genSalt(RESET_SALT_FACTOR, (err, salt) => {
+      if (err) {
+        logger.error('Error in generating hash for token reset, when generating salt', {
+          token,
+          err,
+          salt,
+          tags: ['hashResetToken', 'bcryptError', 'genSalt'],
+        });
+        return reject({ err, data: null });
+      }
+      bcrypt.hash(token, salt, (err, hash) => {
+        if (err) {
+          logger.error('Error in generating hash for token reset, when hashing password', {
+            token,
+            err,
+            hash,
+            tags: ['hashResetToken', 'bcryptError', 'hashPassword'],
+          });
+          return reject({ err, data: null });
+        }
+        return resolve({ err: null, data: hash });
+      });
+    });
+  });
+};
+
+UserSchema.methods.checkResetToken = function checkRT(token) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(token, this.auth.reset, (err, data) => {
+      if (err) {
+        return reject({ data: null, err });
+      }
+      if (data === false) {
+        return reject({ data: null, err: false });
+      }
+      return resolve({ data, err: null });
+    });
+  });
 };
 
 // #Define Statics Methods (not with big Arrow =>)
